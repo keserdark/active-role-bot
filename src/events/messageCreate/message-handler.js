@@ -15,7 +15,8 @@ module.exports = async (message) => {
         const guildId = message.guild.id;
 
         // Check message conditions (e.g., has attachments) to assign role
-        const shouldAssignRole = message.attachments.size > 0; // Example condition
+        // const shouldAssignRole = message.attachments.size > 0; // Example condition
+        const shouldAssignRole = true; // Example condition
         if (shouldAssignRole) {
             await UserActivityService.recordMessage(userId, guildId);
             await UserActivityService.assignRole(userId, guildId, message, guildSettings);
