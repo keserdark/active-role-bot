@@ -8,7 +8,7 @@ const checkAdminPermission = require('../utils/check-permissions');
 module.exports = {
     data: {
         name: 'setup',
-        description: 'Setup the bot for this server by defining active role and activity duration.',
+        description: 'Setup the bot for this server by defining active role and activity duration',
         options: [
             {
                 name: 'role',
@@ -17,8 +17,14 @@ module.exports = {
                 required: true,
             },
             {
-                name: 'duration',
-                description: 'Activity duration in hours required to keep the role',
+                name: 'days',
+                description: 'Duration in days',
+                type: ApplicationCommandOptionType.Integer,
+                required: true,
+            },
+            {
+                name: 'hours',
+                description: 'Duration in hours',
                 type: ApplicationCommandOptionType.Integer,
                 required: true,
             }
@@ -30,7 +36,9 @@ module.exports = {
 
         const guildId = interaction.guild.id;
         const role = interaction.options.getRole('role');
-        const duration = interaction.options.getInteger('duration');
+        const days = interaction.options.getInteger('days');
+        const hours = interaction.options.getInteger('hours');
+        const duration = (days * 24) + hours;
 
         try {
             await GuildSettingsService.updateActiveRole(guildId, role.id);
@@ -40,7 +48,7 @@ module.exports = {
             await UserActivityService.refreshRolesOneGuild(guildId);
 
             return interaction.reply({
-                content: `Setup complete! \nActive role: ${role.name}, \nActivity duration: ${duration} hours.`,
+                content: `Setup complete! \nActive role: ${role.name}, \nActivity duration: ${days} days and ${hours} hours (${duration} hours total).`,
                 // ephemeral: true,
             });
         } catch (error) {

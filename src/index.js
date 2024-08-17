@@ -37,7 +37,7 @@ new CommandHandler({
         await client.login(process.env.DISCORD_BOT_TOKEN);
         console.log('✅ Connected to Discord.');
     } catch (error) {
-        console.error('Error connecting to MongoDB or Discord:', error);
+        console.error('⚠️ Error connecting to MongoDB or Discord:', error);
         process.exit(1);
     }
 })();

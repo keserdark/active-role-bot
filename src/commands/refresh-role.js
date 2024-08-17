@@ -12,7 +12,7 @@ module.exports = {
     run: async ({ interaction }) => {
         if (!checkAdminPermission(interaction)) return;
 
-        await interaction.deferReply({ ephemeral: true });
+        await interaction.deferReply();
         const guild = interaction.guild;
         const guildId = guild.id;
 

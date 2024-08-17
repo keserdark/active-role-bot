@@ -7,7 +7,7 @@ const checkAdminPermission = require('../utils/check-permissions');
 module.exports = {
     data: {
         name: 'active-role',
-        description: 'Set the active role to be assigned to users.',
+        description: 'Set the active role to be assigned to users',
         options: [{
             name: 'role',
             description: 'The role to assign',
