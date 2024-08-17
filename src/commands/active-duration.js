@@ -8,24 +8,36 @@ module.exports = {
     data: {
         name: 'active-duration',
         description: 'Set the activity duration required to keep the role assigned.',
-        options: [{
-            name: 'hours',
-            description: 'Duration in hours',
-            type: ApplicationCommandOptionType.Integer,
-            required: true,
-        }]
+        options: [
+            {
+                name: 'days',
+                description: 'Duration in days',
+                type: ApplicationCommandOptionType.Integer,
+                required: false,
+            },
+            {
+                name: 'hours',
+                description: 'Duration in hours',
+                type: ApplicationCommandOptionType.Integer,
+                required: true,
+            }
+        ]
     },
 
     run: async ({ interaction }) => {
         if (!checkAdminPermission(interaction)) return;
 
         const guildId = interaction.guild.id;
+        const days = interaction.options.getInteger('days') || 0;
         const hours = interaction.options.getInteger('hours');
 
+        // Convert days to hours and calculate the total duration
+        const totalHours = (days * 24) + hours;
+
         try {
-            await GuildSettingsService.updateActivityDuration(guildId, hours);
+            await GuildSettingsService.updateActivityDuration(guildId, totalHours);
             return interaction.reply({
-                content: `Activity duration updated to ${hours} hours.`,
+                content: `Activity duration updated to ${days} days and ${hours} hours (${totalHours} hours total).`,
                 // ephemeral: true,
             });
         } catch (error) {
