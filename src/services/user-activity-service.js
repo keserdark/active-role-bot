@@ -119,6 +119,7 @@ class UserActivityService {
             for (const settings of allGuildSettings) {
                 const guild = client.guilds.cache.get(settings.guildId);
                 if (guild) {
+                    await guild.members.fetch();
                     await this.refreshRolesOneGuild(settings.guildId, guild);
                 }
             }
